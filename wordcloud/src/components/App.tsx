@@ -15,11 +15,16 @@ function App() {
 	return (
 		<div className="App">
 			<WordCloudView
+				// @ts-ignore
 				setSelectedWord={setSelectedWord}
 				displayWordDetailsOverlay={displayWordDetailsOverlay}
 				hideWordDetailsOverlay={hideWordDetailsOverlay}
 			/>
-			<WordDetailsPanel />
+			<WordDetailsPanel
+				showWordDetailsOverlay={showWordDetailsOverlay}
+				hideWordDetailsOverlay={hideWordDetailsOverlay}
+				selectedWord={selectedWord}
+			/>
 		</div>
 	);
 }

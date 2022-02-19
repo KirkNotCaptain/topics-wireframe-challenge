@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import WordCloud from "react-d3-cloud";
 // import { TopicsWireframeApi } from "../api/index";
 import { topicsData } from "../api/data";
+import { TopicData } from "../api/dataModel";
 
 const prefixedTextSizes = [""]; //CKTODO: create enum for font sizes
 
@@ -49,6 +50,12 @@ const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
 		}
 	};
 
+	const handleWordClick = (word: TopicData) => {
+		// @ts-ignore
+		setSelectedWord(word);
+		displayWordDetailsOverlay();
+	};
+
 	return (
 		<div style={{ width: "70%" }}>
 			<WordCloud
@@ -61,6 +68,8 @@ const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
 				fill={(d) => calculateSentimentScoreColor(d.sentimentScore)}
 				fontWeight="bold"
 				fontSize={(d) => d.value}
+				// @ts-ignore
+				onWordClick={(event, d) => handleWordClick(d)}
 			/>
 		</div>
 	);
