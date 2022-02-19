@@ -3,6 +3,7 @@ import WordCloud from "react-d3-cloud";
 // import { TopicsWireframeApi } from "../api/index";
 import { topicsData } from "../api/topicsApiData";
 import { TopicData, ApiTopicsData } from "../api/topicsDataModel";
+import { Tooltip } from "react-bootstrap";
 
 const prefixedTextSizes = [""]; //CKTODO: create enum for font sizes
 
@@ -15,7 +16,6 @@ const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
 	setSelectedWord,
 	displayWordDetailsOverlay,
 }) => {
-	const [wordCloudData, setWordCloudData] = useState([]);
 	// const api = new TopicsWireframeApi();
 	// useEffect(() => {
 	// 	if (!wordCloudData.length) {
@@ -66,7 +66,7 @@ const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
 				data={convertToWordCloudData(topicsData)}
 				width={500}
 				rotate={0}
-				font="Times"
+				font="Gill Sans"
 				fill={(word: any) => calculateSentimentScoreColor(word?.sentimentScore)}
 				fontWeight="bold"
 				fontSize={(word: any) => word.value}

@@ -13,9 +13,8 @@ function App() {
 
 	return (
 		<div className="App">
-			<h1 className="word-cloud-app-header">
-				Christina Kirk - Topics Challenge
-			</h1>
+			<h1 className="word-cloud-app-header"> Christina Kirk - Topics Challenge </h1>
+			<div className='word-cloud-app-base-text'> To begin hover over or click any word for more detaiils</div>
 			<WordCloudView
 				setSelectedWord={setSelectedWord}
 				displayWordDetailsOverlay={displayWordDetailsOverlay}
