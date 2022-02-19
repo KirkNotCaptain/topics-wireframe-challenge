@@ -1,17 +1,17 @@
 import { FunctionComponent } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Table from "react-bootstrap/Table";
-import { 
-	LineChart, 
-	CartesianGrid, 
-	XAxis, 
-	YAxis, 
-	Tooltip, 
-	Legend, 
-	Label, 
-	Line, 
-	PieChart, 
-	Pie 
+import {
+	LineChart,
+	CartesianGrid,
+	XAxis,
+	YAxis,
+	Tooltip,
+	Legend,
+	Label,
+	Line,
+	RadialBarChart,
+	RadialBar
 } from 'recharts';
 import { Days, PageType } from '../api/topicsDataModel';
 
@@ -19,11 +19,13 @@ interface IWordDetailsPanelProps {
 	showWordDetailsOverlay: boolean;
 	hideWordDetailsOverlay: () => void;
 	selectedWord: any;
+	calculateSentimentScoreColor: (score: number) => string;
 }
 const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 	showWordDetailsOverlay,
 	hideWordDetailsOverlay,
 	selectedWord,
+	calculateSentimentScoreColor
 }) => {
 	/**
 	 * Convert UTC date string to DD/MM/YYYY format for pie chage
@@ -61,13 +63,15 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 	 * @param pageTypeData - topic api page type property
 	 * @returns convertedPageTypeData - list of page types in pie format
 	 */
-	const convertPageTypeToPieData = (pageTypeData: PageType) => {
+	const convertPageTypeToPieData = (pageTypeData: PageType): any => {
 		let convertedPageTypeData = [];
 		if (pageTypeData) {
 			for (const [key, value] of Object.entries(pageTypeData)) {
 				convertedPageTypeData.push({
 					name: key,
-					value
+					value,
+					// @ts-ignore
+					fill: radialChartColorKey[key]
 				})
 			}
 		}
@@ -83,6 +87,24 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 		return entry.name
 	};
 
+	const radialChartStyle = {
+		top: 0,
+		left: 250,
+		lineHeight: '24px',
+	};
+
+	const radialChartColorKey = {
+		blog: "#8884d8",
+		facebook: "#83a6ed",
+		forum: "#8dd1e1",
+		general: "#82ca9d",
+		image: "#a4de6c",
+		news: "#d0ed57",
+		review: "#ffc658",
+		twitter: '#FF4DB5',
+		video: '#408CFF'
+	};
+
 	return (
 		<>
 			<Offcanvas
@@ -91,9 +113,10 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 				placement={"end"}
 			>
 				<Offcanvas.Header closeButton>
-				<Offcanvas.Title>{''}</Offcanvas.Title>
+					<Offcanvas.Title>{''}</Offcanvas.Title>
 				</Offcanvas.Header>
-				<Offcanvas.Title style={{textAlign: 'center', fontSize: '2em'}}>{`-- ${selectedWord.text} --`}</Offcanvas.Title>
+				<Offcanvas.Title style={{ textAlign: 'center', fontSize: '2em', color: calculateSentimentScoreColor(selectedWord.sentimentScore) }}>{`-- ${selectedWord.text} --`}</Offcanvas.Title>
+
 				{/*  Volume By Sentiment Table */}
 				<Offcanvas.Body>
 					<div className="word-details-panel-subheader">Volume By Sentiment:</div>
@@ -115,7 +138,7 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 							</tr>
 						</tbody>
 					</Table>
-				
+
 					{/*  Volume By Days Graph */}
 					<div className="word-details-panel-subheader">Volume Over Time:</div>
 					<LineChart width={350} height={300} data={convertTopicApiDates(selectedWord.days)}
@@ -132,20 +155,22 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 						<Line type="monotone" dataKey="volume" stroke="#82ca9d" />
 					</LineChart>
 
-					{/*  Page Type Pie Graph */}
+					{/*  Page Type Radial Graph */}
 					<div className="word-details-panel-subheader">Volume By Page Type:</div>
-					<PieChart width={350} height={250}>
-						<Pie 
-							data={convertPageTypeToPieData(selectedWord.pageType)} 
-							dataKey="value" 
-							nameKey="name" 
-							cx="50%" 
-							cy="50%" 
-							outerRadius={50} 
-							fill="#82ca9d" 
-							label={(e: any) => renderPieGraphLabel(e)} 
-						/>
-					</PieChart>
+					<RadialBarChart
+						width={300}
+						height={250}
+						innerRadius="10%"
+						outerRadius="80%"
+						data={convertPageTypeToPieData(selectedWord.pageType)}
+						startAngle={180}
+						endAngle={0}
+					>
+
+						{// @ts-ignore
+							<RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="value" />}
+						<Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" wrapperStyle={radialChartStyle} />
+					</RadialBarChart>
 				</Offcanvas.Body>
 			</Offcanvas>
 		</>

@@ -1,30 +1,21 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent } from "react";
 import WordCloud from "react-d3-cloud";
-// import { TopicsWireframeApi } from "../api/index";
 import { topicsData } from "../api/topicsApiData";
 import { TopicData, ApiTopicsData } from "../api/topicsDataModel";
-import { Tooltip } from "react-bootstrap";
 
 const prefixedTextSizes = [""]; //CKTODO: create enum for font sizes
 
 interface IWordCloudViewProps {
 	setSelectedWord: (word: TopicData) => void;
 	displayWordDetailsOverlay: () => void;
+	calculateSentimentScoreColor: (score: number) => string;
 }
 
 const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
 	setSelectedWord,
 	displayWordDetailsOverlay,
+	calculateSentimentScoreColor
 }) => {
-	// const api = new TopicsWireframeApi();
-	// useEffect(() => {
-	// 	if (!wordCloudData.length) {
-	// 		const convteredWordCloudData = convertToWordCloudData(topicsData);
-	// 		// @ts-ignore
-	// 		setWordCloudData(convteredWordCloudData);
-	// 	}
-	// }, []);
-
 	/**
 	 * Convert raw topics data into data type useable by WordCloud
 	 * @param topicsData - api topics data
@@ -39,16 +30,6 @@ const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
 			};
 		});
 		return convertedData;
-	};
-
-	const calculateSentimentScoreColor = (score: number) => {
-		if (score > 60) {
-			return "green";
-		} else if (score < 40) {
-			return "red";
-		} else {
-			return "grey";
-		}
 	};
 
 	/**
