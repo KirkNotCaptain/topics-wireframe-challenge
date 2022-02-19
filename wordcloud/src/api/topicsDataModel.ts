@@ -1,12 +1,12 @@
 export interface Sentiment {
-  negative: number;
-  neutral: number;
-  postive: number;
+  negative?: number;
+  neutral?: number;
+  postive?: number;
 }
 
 export interface Day {
-  data: string;
-  volume: number;
+  data?: string;
+  volume?: number;
 } 
 
 export interface Days extends Array<Day> {}
@@ -43,7 +43,8 @@ export interface TopicData {
   pageType: PageType;
   queries: Queries;
 }
+export interface TopicsData extends Array<TopicData>{};
 
-export interface TopicsData {
-  topics: Array<TopicData>;
+export interface ApiTopicsData {
+  topics: TopicsData ;
 };

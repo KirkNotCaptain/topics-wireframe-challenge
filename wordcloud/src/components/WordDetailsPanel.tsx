@@ -27,6 +27,7 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 					<Table striped bordered hover>
 						<thead>
 							<tr>
+								<th>Total Volume</th>
 								<th>Postive</th>
 								<th>Neutral</th>
 								<th>Negative</th>
@@ -34,6 +35,7 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 						</thead>
 						<tbody>
 							<tr>
+								<td>{selectedWord?.volume}</td>
 								<td>{selectedWord.sentiment?.positive}</td>
 								<td>{selectedWord.sentiment?.neutral}</td>
 								<td>{selectedWord.sentiment?.negative}</td>

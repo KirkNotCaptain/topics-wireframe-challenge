@@ -1,4 +1,4 @@
-import { topicsData } from "./data";
+import { topicsData } from "./topicsApiData";
 
 export class TopicsWireframeApi {
 	getTopics() {

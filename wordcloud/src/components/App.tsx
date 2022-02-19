@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "./styles/App.css";
-import WordCloudView from "./WordCloud";
+import WordCloudView from "./WordCloudView";
 import WordDetailsPanel from "./WordDetailsPanel";
-import WordCloudContext from "./context";
-import { TopicData } from "../api/dataModel";
+import { TopicData } from "../api/topicsDataModel";
 
 function App() {
 	const [showWordDetailsOverlay, setShowWordDetailsOverlay] = useState(false);
@@ -14,11 +13,12 @@ function App() {
 
 	return (
 		<div className="App">
+			<h1 className="word-cloud-app-header">
+				Christina Kirk - Topics Challenge
+			</h1>
 			<WordCloudView
-				// @ts-ignore
 				setSelectedWord={setSelectedWord}
 				displayWordDetailsOverlay={displayWordDetailsOverlay}
-				hideWordDetailsOverlay={hideWordDetailsOverlay}
 			/>
 			<WordDetailsPanel
 				showWordDetailsOverlay={showWordDetailsOverlay}
