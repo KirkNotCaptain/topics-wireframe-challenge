@@ -3,6 +3,7 @@ import WordCloud from "react-d3-cloud";
 import { topicsData } from "../api/topicsApiData";
 import { TopicData, ApiTopicsData } from "../api/topicsDataModel";
 import { calculateSentimentScoreColor, calculateFontsize } from "./utils";
+import TopicsDataApiClient from '../api/index';
 
 interface IWordCloudViewProps {
   setSelectedWord: (word: TopicData) => void;
@@ -19,7 +20,9 @@ const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
 
   useEffect(() => {
     if (!wordCloudData.length) {
-      extractWordCloudData(topicsData);
+			const api = new TopicsDataApiClient();
+			api.getTopicsData()
+			.then((data: ApiTopicsData) => extractWordCloudData(data))
     }
   });
 
