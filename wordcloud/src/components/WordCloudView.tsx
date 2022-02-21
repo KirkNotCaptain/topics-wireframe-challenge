@@ -84,7 +84,7 @@ const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
         fontSize={(word: any) => calculateFontsize(word.value, minVolume, maxVolume)}
         onWordClick={(event: any, word: any) => handleWordClick(word)}
         random={() => 0}
-        padding={8}
+        padding={3}
       />
     </div>
   );
