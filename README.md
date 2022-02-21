@@ -24,6 +24,7 @@ Ensure that the following modules are installed before running `npm install`
 - Node v10.13.10 or higher
 
 ## Running the Server  
+- navigate to ./wordcloud
 - `npm install` - install dependencies
 - `npm start` - start the server
 - Wait for the local server to open automatically or navigate to http://localhost:3000/
