@@ -1,6 +1,11 @@
+// React
 import { FunctionComponent } from "react";
+
+// Bootstrap
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Table from "react-bootstrap/Table";
+
+// Recharts
 import {
 	LineChart,
 	CartesianGrid,
@@ -13,7 +18,11 @@ import {
 	RadialBarChart,
 	RadialBar
 } from 'recharts';
+
+// Data Model
 import { Days, PageType } from '../api/topicsDataModel';
+
+// Utils
 import { calculateSentimentScoreColor } from './utils';
 
 interface IWordDetailsPanelProps {
@@ -29,7 +38,7 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 	/**
 	 * Convert UTC date string to DD/MM/YYYY format for pie chage
 	 * @param date 
-	 * @returns 
+	 * @returns converted date in day/month/year format
 	 */
 	const convertDateToDDMMYY = (date: string): string => {
 		const d = new Date(date);
@@ -76,15 +85,6 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 		}
 		return convertedPageTypeData;
 	}
-
-	/**
-	 * Renders name label for pageType pie graph
-	 * @param entry 
-	 * @returns 
-	 */
-	const renderPieGraphLabel = (entry: any) => {
-		return entry.name
-	};
 
 	const radialChartStyle = {
 		top: 0,
@@ -150,7 +150,6 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 							<Label value="Volume" offset={20} position="insideLeft" angle={-90} />
 						</YAxis>
 						<Tooltip />
-						{/* <Legend /> */}
 						<Line type="monotone" dataKey="volume" stroke="#82ca9d" />
 					</LineChart>
 
@@ -165,7 +164,6 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 						startAngle={180}
 						endAngle={0}
 					>
-
 						{// @ts-ignore
 							<RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#666' }} background clockWise dataKey="value" />}
 						<Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" wrapperStyle={radialChartStyle} />

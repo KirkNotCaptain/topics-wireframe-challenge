@@ -1,8 +1,16 @@
+// React
 import { FunctionComponent, useState, useEffect } from "react";
+
+// Word Cloud 
 import WordCloud from "react-d3-cloud";
-import { topicsData } from "../api/topicsApiData";
+
+// Data Model
 import { TopicData, ApiTopicsData } from "../api/topicsDataModel";
+
+// Utils
 import { calculateSentimentScoreColor, calculateFontsize } from "./utils";
+
+// Api
 import TopicsDataApiClient from '../api/index';
 
 interface IWordCloudViewProps {

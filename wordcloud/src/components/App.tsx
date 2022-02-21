@@ -1,10 +1,17 @@
-import { useState } from "react";
+// React
+import { useState, FunctionComponent } from "react";
+
+// Styles
 import "./styles/App.css";
+
+// Components
 import WordCloudView from "./WordCloudView";
 import WordDetailsPanel from "./WordDetailsPanel";
+
+// Data Model
 import { TopicData } from "../api/topicsDataModel";
 
-function App() {
+const App: FunctionComponent = () => {
 	const [showWordDetailsOverlay, setShowWordDetailsOverlay] = useState(false);
 	const [selectedWord, setSelectedWord] = useState<TopicData | object>({});
 
