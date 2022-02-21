@@ -1,63 +1,82 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState, useEffect } from "react";
 import WordCloud from "react-d3-cloud";
 import { topicsData } from "../api/topicsApiData";
 import { TopicData, ApiTopicsData } from "../api/topicsDataModel";
-
-const prefixedTextSizes = [""]; //CKTODO: create enum for font sizes
+import { calculateSentimentScoreColor, calculateFontsize } from "./utils";
 
 interface IWordCloudViewProps {
-	setSelectedWord: (word: TopicData) => void;
-	displayWordDetailsOverlay: () => void;
-	calculateSentimentScoreColor: (score: number) => string;
+  setSelectedWord: (word: TopicData) => void;
+  displayWordDetailsOverlay: () => void;
 }
 
 const WordCloudView: FunctionComponent<IWordCloudViewProps> = ({
-	setSelectedWord,
-	displayWordDetailsOverlay,
-	calculateSentimentScoreColor
+  setSelectedWord,
+  displayWordDetailsOverlay,
 }) => {
-	/**
-	 * Convert raw topics data into data type useable by WordCloud
-	 * @param topicsData - api topics data
-	 * @returns convertedData - data formatted for use by WordCloud
-	 */
-	const convertToWordCloudData = (topicsData: ApiTopicsData) => {
-		const convertedData = topicsData.topics.map((topic: TopicData) => {
-			return {
-				text: topic.label,
-				value: topic.volume,
-				...topic,
-			};
-		});
-		return convertedData;
-	};
+  const [maxVolume, setMaxVolume] = useState<number>(0);
+  const [minVolume, setMinVolume] = useState<number>(0);
+  const [wordCloudData, setWordCloudData] = useState<any[]>([]);
 
-	/**
-	 * Handles updating selecting word and displaying word details on click from WordCloud
-	 * @param word - word selected from WordCLoud
-	 */
-	const handleWordClick = (word: TopicData) => {
-		setSelectedWord(word);
-		displayWordDetailsOverlay();
-	};
+  useEffect(() => {
+    if (!wordCloudData.length) {
+      extractWordCloudData(topicsData);
+    }
+  });
 
-	return (
-		<div className="word-cloud-container">
-			<WordCloud
-				data={convertToWordCloudData(topicsData)}
-				width={500}
-				rotate={0}
-				font="Gill Sans"
-				fill={(word: any) => calculateSentimentScoreColor(word?.sentimentScore)}
-				fontWeight="bold"
-				fontSize={(word: any) => word.value}
-				onWordClick={(event: any, word: any) => handleWordClick(word)}
-				onWordMouseOver={(event: any, word: any) => console.log(event, word)}
-				random={() => 0}
-				padding={8}
-			/>
-		</div>
-	);
+  /**
+   * Convert raw topics data into data type useable by WordCloud
+   * @param topicsData - api topics data
+   * @returns convertedData - data formatted for use by WordCloud
+   */
+  const extractWordCloudData = (topicsData: ApiTopicsData) => {
+    let maxVolume = 0;
+    let minVolume = 0;
+    let convertedWordCloudData: any[] = [];
+
+    if (topicsData.topics.length) {
+      topicsData.topics.forEach((topic) => {
+        maxVolume = Math.max(maxVolume, topic.volume);
+        minVolume = Math.min(minVolume, topic.volume);
+
+        convertedWordCloudData.push({
+          text: topic.label,
+          value: topic.volume,
+          ...topic,
+        });
+      });
+    }
+
+    setMaxVolume(maxVolume);
+    setMinVolume(minVolume);
+    setWordCloudData(convertedWordCloudData);
+  };
+
+  /**
+   * Handles updating selecting word and displaying word details on click from WordCloud
+   * @param word - word selected from WordCLoud
+   */
+  const handleWordClick = (word: TopicData) => {
+    setSelectedWord(word);
+    displayWordDetailsOverlay();
+  };
+
+  return (
+    <div className="word-cloud-container">
+      <WordCloud
+        data={wordCloudData}
+        width={600}
+				height={600}
+        rotate={0}
+        font="Gill Sans"
+        fill={(word: any) => calculateSentimentScoreColor(word?.sentimentScore)}
+        fontWeight="bold"
+        fontSize={(word: any) => calculateFontsize(word.value, minVolume, maxVolume)}
+        onWordClick={(event: any, word: any) => handleWordClick(word)}
+        random={() => 0}
+        padding={8}
+      />
+    </div>
+  );
 };
 
 export default WordCloudView;

@@ -14,18 +14,17 @@ import {
 	RadialBar
 } from 'recharts';
 import { Days, PageType } from '../api/topicsDataModel';
+import { calculateSentimentScoreColor } from './utils';
 
 interface IWordDetailsPanelProps {
 	showWordDetailsOverlay: boolean;
 	hideWordDetailsOverlay: () => void;
 	selectedWord: any;
-	calculateSentimentScoreColor: (score: number) => string;
 }
 const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 	showWordDetailsOverlay,
 	hideWordDetailsOverlay,
 	selectedWord,
-	calculateSentimentScoreColor
 }) => {
 	/**
 	 * Convert UTC date string to DD/MM/YYYY format for pie chage
@@ -168,7 +167,7 @@ const WordDetailsPanel: FunctionComponent<IWordDetailsPanelProps> = ({
 					>
 
 						{// @ts-ignore
-							<RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="value" />}
+							<RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#666' }} background clockWise dataKey="value" />}
 						<Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" wrapperStyle={radialChartStyle} />
 					</RadialBarChart>
 				</Offcanvas.Body>

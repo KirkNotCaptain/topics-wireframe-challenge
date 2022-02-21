@@ -11,16 +11,6 @@ function App() {
 	const displayWordDetailsOverlay = () => setShowWordDetailsOverlay(true);
 	const hideWordDetailsOverlay = () => setShowWordDetailsOverlay(false);
 
-	const calculateSentimentScoreColor = (score: number): string => {
-		if (score > 60) {
-			return "green";
-		} else if (score < 40) {
-			return "red";
-		} else {
-			return "grey";
-		}
-	};
-
 	return (
 		<div className="App">
 			<h1 className="word-cloud-app-header"> Christina Kirk - Topics Challenge </h1>
@@ -28,12 +18,10 @@ function App() {
 			<WordCloudView
 				setSelectedWord={setSelectedWord}
 				displayWordDetailsOverlay={displayWordDetailsOverlay}
-				calculateSentimentScoreColor={calculateSentimentScoreColor}
 			/>
 			<WordDetailsPanel
 				showWordDetailsOverlay={showWordDetailsOverlay}
 				hideWordDetailsOverlay={hideWordDetailsOverlay}
-				calculateSentimentScoreColor={calculateSentimentScoreColor}
 				selectedWord={selectedWord}
 			/>
 		</div>
